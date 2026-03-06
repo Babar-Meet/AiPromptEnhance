@@ -35,8 +35,8 @@ export const ROLE_LIMITS = {
 
 export const DEFAULT_SETTINGS = {
   comparisonLimit: 3,
-  promptScoringModel: "gpt-oss:20b",
-  guestDefaultModelId: "gpt-oss:20b",
+  promptScoringModel: "",
+  guestDefaultModelId: "",
   playgroundDefaults: {
     temperature: 0.7,
     top_p: 0.9,

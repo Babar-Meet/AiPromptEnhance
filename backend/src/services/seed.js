@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
 import { User } from "../models/User.js";
-import { ModelConfig } from "../models/ModelConfig.js";
 import { ensureDefaultSettings } from "./settings.js";
 
 const defaults = [
@@ -21,22 +20,6 @@ export async function seedDefaults() {
     const passwordHash = await bcrypt.hash(item.password, 10);
     await User.create({ email: item.email, passwordHash, role: item.role });
   }
-
-  await ModelConfig.updateOne(
-    { modelId: "gpt-oss:20b" },
-    {
-      $setOnInsert: {
-        name: "Ollama GPT OSS 20B",
-        modelId: "gpt-oss:20b",
-        provider: "ollama",
-        enabled: true,
-        allowGuest: true,
-        allowFree: true,
-        allowPaid: true,
-      },
-    },
-    { upsert: true },
-  );
 
   await ensureDefaultSettings();
 }

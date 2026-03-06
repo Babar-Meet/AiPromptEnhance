@@ -22,8 +22,8 @@ export function AdminPage() {
   const [payments, setPayments] = useState([]);
   const [settings, setSettings] = useState({
     comparisonLimit: 3,
-    promptScoringModel: "gpt-oss:20b",
-    guestDefaultModelId: "gpt-oss:20b",
+    promptScoringModel: "",
+    guestDefaultModelId: "",
   });
   const [newModel, setNewModel] = useState({
     name: "",

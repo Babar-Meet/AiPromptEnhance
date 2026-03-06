@@ -194,6 +194,7 @@ export function ChatPage() {
         },
         onMeta(meta) {
           if (meta.chatId) setChatId(meta.chatId);
+          if (meta.model) setModel(meta.model);
         },
         onToken(token) {
           streamingText += token;
@@ -314,11 +315,12 @@ export function ChatPage() {
 
     function onGlobalShortcut(event) {
       if (event.defaultPrevented || event.isComposing) return;
-      if (isEditableTarget(event.target)) return;
 
       const key = event.key.toLowerCase();
+      const isAltOnlyShortcut =
+        !event.shiftKey && !event.ctrlKey && !event.metaKey && event.altKey;
 
-      if (!event.shiftKey && !event.ctrlKey && !event.metaKey && event.altKey) {
+      if (isAltOnlyShortcut) {
         if (key === "b") {
           event.preventDefault();
           setSidebarOpen((prev) => !prev);
@@ -352,6 +354,8 @@ export function ChatPage() {
           return;
         }
       }
+
+      if (isEditableTarget(event.target)) return;
 
       if (!hasPrimaryModifier(event) || event.altKey || event.shiftKey) return;
 

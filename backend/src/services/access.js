@@ -1,5 +1,6 @@
 import { ModelConfig } from "../models/ModelConfig.js";
 import { getSetting } from "./settings.js";
+import { DEFAULT_SETTINGS } from "../utils/constants.js";
 
 export function modelAllowedForRole(model, role) {
   if (!model.enabled) return false;
@@ -11,7 +12,10 @@ export function modelAllowedForRole(model, role) {
 
 export async function getModelForRequest(role, requestedModelId) {
   if (role === "guest") {
-    const guestModelId = await getSetting("guestDefaultModelId", "gpt-oss:20b");
+    const guestModelId = await getSetting(
+      "guestDefaultModelId",
+      DEFAULT_SETTINGS.guestDefaultModelId,
+    );
     const model = await ModelConfig.findOne({ modelId: guestModelId }).lean();
     if (!model || !modelAllowedForRole(model, role)) {
       const error = new Error("Guest model is not configured");
