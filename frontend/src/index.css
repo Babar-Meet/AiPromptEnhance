@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+:root {
+  font-family: "Söhne", "Segoe UI", "Helvetica Neue", sans-serif;
+  color: #ececf1;
+  background: #343541;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #343541;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #565869;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6e7086;
+}
+
+/* Typing cursor animation */
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+.typing-cursor::after {
+  content: "▍";
+  animation: blink 1s step-end infinite;
+  color: #10a37f;
+}

@@ -1,0 +1,23 @@
+{
+  "name": "dr-ai-prompt-enhance",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dr. Ai Prompt Enhance full-stack prompt engineering platform",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "build": "npm run build --prefix frontend",
+    "start": "npm run start --prefix backend"
+  },
+  "keywords": [
+    "prompt-engineering",
+    "sse",
+    "mongodb",
+    "rbac"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "devDependencies": {}
+}
