@@ -10,6 +10,22 @@ const API_BASE = (import.meta.env.VITE_API_BASE || "http://localhost:5000/api")
   .trim()
   .replace(/\/$/, "");
 const MODE_IDS = ["grammar", "enhancer", "master"];
+const IS_MAC =
+  typeof navigator !== "undefined" &&
+  /Mac|iPhone|iPad|iPod/i.test(navigator.platform);
+
+function hasPrimaryModifier(event) {
+  return IS_MAC
+    ? event.metaKey && !event.ctrlKey
+    : event.ctrlKey && !event.metaKey;
+}
+
+function isEditableTarget(target) {
+  if (!(target instanceof HTMLElement)) return false;
+  if (target.isContentEditable) return true;
+  const tag = target.tagName;
+  return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+}
 
 async function streamChatMessage({
   token,
@@ -293,30 +309,36 @@ export function ChatPage() {
     }
 
     function onGlobalShortcut(event) {
-      const isMod = event.ctrlKey || event.metaKey;
-      if (!isMod) return;
+      if (event.defaultPrevented || event.isComposing) return;
+      if (!hasPrimaryModifier(event) || event.altKey) return;
+      if (isEditableTarget(event.target)) return;
 
-      if (event.key === "b" || event.key === "B") {
+      const key = event.key.toLowerCase();
+
+      if (!event.shiftKey && key === "b") {
         event.preventDefault();
         setSidebarOpen((prev) => !prev);
         return;
       }
 
-      if (event.key === "k" || event.key === "K") {
+      if (!event.shiftKey && key === "k") {
         event.preventDefault();
         focusComposer();
         return;
       }
 
-      if (event.key === "/") {
+      if (!event.shiftKey && key === "/") {
         event.preventDefault();
         navigate("/shortcuts");
         return;
       }
 
-      if (event.key === "1" || event.key === "2" || event.key === "3") {
+      if (
+        event.shiftKey &&
+        (key === "1" || key === "2" || key === "3")
+      ) {
         event.preventDefault();
-        const index = Number(event.key) - 1;
+        const index = Number(key) - 1;
         const targetMode = MODE_IDS[index];
         if (targetMode) setMode(targetMode);
         return;
@@ -324,19 +346,19 @@ export function ChatPage() {
 
       if (!event.shiftKey) return;
 
-      if (event.key === "ArrowUp") {
+      if (key === "arrowup") {
         event.preventDefault();
         browseChat(-1);
         return;
       }
 
-      if (event.key === "ArrowDown") {
+      if (key === "arrowdown") {
         event.preventDefault();
         browseChat(1);
         return;
       }
 
-      if (event.key === "n" || event.key === "N") {
+      if (key === "n") {
         event.preventDefault();
         newChat();
         focusComposer();

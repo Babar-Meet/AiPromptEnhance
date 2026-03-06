@@ -10,17 +10,17 @@ const shortcuts = [
     details: "Open or close chat history sidebar from anywhere.",
   },
   {
-    keys: "Ctrl/Cmd + 1",
+    keys: "Ctrl/Cmd + Shift + 1",
     action: "Switch to Grammar mode",
     details: "Selects Grammar mode instantly.",
   },
   {
-    keys: "Ctrl/Cmd + 2",
+    keys: "Ctrl/Cmd + Shift + 2",
     action: "Switch to Enhance mode",
     details: "Selects Enhance mode instantly.",
   },
   {
-    keys: "Ctrl/Cmd + 3",
+    keys: "Ctrl/Cmd + Shift + 3",
     action: "Switch to Master mode",
     details: "Selects Master mode instantly.",
   },
