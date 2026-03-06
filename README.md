@@ -32,8 +32,16 @@ Production-ready full-stack prompt engineering platform.
    - `JWT_EXPIRES_IN=7d`
    - `FRONTEND_ORIGIN=https://your-frontend-domain.com`
 
+   Render example:
+   - `FRONTEND_ORIGIN=https://aipromptenhance.vercel.app,https://*.vercel.app`
+   - Do not include a path (for example, not `https://aipromptenhance.vercel.app/login`).
+
 2. Frontend environment (on frontend host):
    - `VITE_API_BASE=https://your-backend-domain.com/api`
+
+   Vercel example:
+   - `VITE_API_BASE=https://aipromptenhance.onrender.com/api`
+   - After editing env vars in Vercel, redeploy so the new value is baked into the build.
 
 3. CORS:
    - Set `FRONTEND_ORIGIN` to your deployed frontend URL (comma-separated if multiple domains).
