@@ -26,7 +26,12 @@ export function roleAwareLimiter(req, res, next) {
   buckets.set(key, entry);
 
   if (entry.count > conf.requestCount) {
-    return res.status(429).json({ message: "Rate limit exceeded" });
+    return res
+      .status(429)
+      .json({
+        message:
+          "Rate limit exceeded. Please log in, upgrade to premium, or try again tomorrow.",
+      });
   }
 
   return next();
