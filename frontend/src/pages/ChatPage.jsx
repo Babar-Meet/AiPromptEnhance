@@ -27,6 +27,10 @@ function isEditableTarget(target) {
   return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
 }
 
+function isModSlashShortcut(event) {
+  return event.code === "Slash" || event.key === "/" || event.key === "?";
+}
+
 async function streamChatMessage({
   token,
   payload,
@@ -310,58 +314,56 @@ export function ChatPage() {
 
     function onGlobalShortcut(event) {
       if (event.defaultPrevented || event.isComposing) return;
-      if (!hasPrimaryModifier(event) || event.altKey) return;
       if (isEditableTarget(event.target)) return;
 
       const key = event.key.toLowerCase();
 
-      if (!event.shiftKey && key === "b") {
-        event.preventDefault();
-        setSidebarOpen((prev) => !prev);
-        return;
+      if (!event.shiftKey && !event.ctrlKey && !event.metaKey && event.altKey) {
+        if (key === "b") {
+          event.preventDefault();
+          setSidebarOpen((prev) => !prev);
+          return;
+        }
+
+        if (key === "n") {
+          event.preventDefault();
+          newChat();
+          focusComposer();
+          return;
+        }
+
+        if (key === "arrowup") {
+          event.preventDefault();
+          browseChat(-1);
+          return;
+        }
+
+        if (key === "arrowdown") {
+          event.preventDefault();
+          browseChat(1);
+          return;
+        }
+
+        if (key === "1" || key === "2" || key === "3") {
+          event.preventDefault();
+          const index = Number(key) - 1;
+          const targetMode = MODE_IDS[index];
+          if (targetMode) setMode(targetMode);
+          return;
+        }
       }
 
-      if (!event.shiftKey && key === "k") {
+      if (!hasPrimaryModifier(event) || event.altKey || event.shiftKey) return;
+
+      if (key === "k") {
         event.preventDefault();
         focusComposer();
         return;
       }
 
-      if (!event.shiftKey && key === "/") {
+      if (isModSlashShortcut(event)) {
         event.preventDefault();
         navigate("/shortcuts");
-        return;
-      }
-
-      if (
-        event.shiftKey &&
-        (key === "1" || key === "2" || key === "3")
-      ) {
-        event.preventDefault();
-        const index = Number(key) - 1;
-        const targetMode = MODE_IDS[index];
-        if (targetMode) setMode(targetMode);
-        return;
-      }
-
-      if (!event.shiftKey) return;
-
-      if (key === "arrowup") {
-        event.preventDefault();
-        browseChat(-1);
-        return;
-      }
-
-      if (key === "arrowdown") {
-        event.preventDefault();
-        browseChat(1);
-        return;
-      }
-
-      if (key === "n") {
-        event.preventDefault();
-        newChat();
-        focusComposer();
       }
     }
 
@@ -393,7 +395,7 @@ export function ChatPage() {
             <button
               onClick={() => setSidebarOpen((prev) => !prev)}
               className="rounded-md p-2 text-white/60 hover:bg-white/10"
-              title="Toggle sidebar (Ctrl/Cmd+B)"
+              title="Toggle sidebar (Alt+B)"
             >
               <svg
                 width="18"
