@@ -28,7 +28,7 @@ export function SubscriptionPage() {
       <p className="mt-2 text-slate-300">
         UPI ID:{" "}
         <span className="font-semibold text-cyan-300">
-          babarmeet@okhdfcbank
+          babarmeet86@okhdfcbank
         </span>
       </p>
       <form className="mt-6 space-y-3" onSubmit={submitRequest}>
