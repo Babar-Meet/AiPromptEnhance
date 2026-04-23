@@ -3,7 +3,6 @@
 Production-ready full-stack prompt engineering platform.
 
 ## Stack
-
 - Frontend: React + Vite + TailwindCSS
 - Backend: Node.js + Express + SSE
 - Database: MongoDB (`AiPromptEnhance`)
